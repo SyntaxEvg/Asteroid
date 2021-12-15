@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-
-
+using Asteroid.Properties;
+using System.Security.Cryptography;
 
 namespace Asteroid
 {
@@ -20,7 +20,7 @@ namespace Asteroid
         public static int Height { get; set; }
 
         static System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        static public Random Random { get; } = new Random();
+        static public Random Rand { get; } = new Random();
         static BaseObject[] _objects;
 
         static Image background = Image.FromFile("Images/Space.jpg");
@@ -43,45 +43,87 @@ namespace Asteroid
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
             timer.Interval = 100;
-            timer.Tick += Timer_Tick;
+            timer.Tick += delegate(object s, EventArgs r)
+                {
+                    Draw();
+                    Update();
+                };
             timer.Start();
             Load();
             
         }
 
-        private static void Timer_Tick(object sender, EventArgs e)
-        {
-            Draw();
-            Update();
-        }
-
         public static void Load()
         {
-            _objects = new BaseObject[30];
-            for (int i = 0; i < _objects.Length/2; i++)
-                _objects[i] = new BaseObject(new Point(600, i * 20), new Point(15 - i, 15 - i), new Size(20, 20));
-            for (int i = 15; i < _objects.Length; i++)
-                _objects[i] = new Star(new Point(600, i * 20), new Point(15 - i, 15 - i), new Size(20, 20),Brushes.Blue);
+            _objects = new BaseObject[30]; // создание обьектов  в видео  астероидов
+
+
+            for (int i = 0; i < _objects.Length / 2; i++)
+            {
+                //    var pos = new Point(Width-10, i * 20);
+                //    var Скорость = new Point(15 - i, 0);
+                //    var size = new Size(40, 40);
+
+                //_objects[i] = new Asteroid(pos, Скорость, size);
+                //}
+                
+                    var s = Rand.Next(10, 47);
+                    var t = Rand.Next(1, 30) * Rand.Next(1, 30);
+                    var pos = new Point(Width, t + s);
+                    var Скорость = new Point(Rand.Next(5, 20), 0);
+                    var size = new Size(s, s);
+                    _objects[i] = new Asteroid(pos, Скорость, size);
+
+            }
+
+                for (int i = 15; i < _objects.Length; i++)
+                _objects[i] = new Star(new Point(Width - 10, i * 20),
+                              new Point(15 - i, 15 - i),
+                              new Size(30, 30), Brushes.Blue);
 
         }
-
-        public static void Draw()
+   
+    public static void Draw()
         {
             //Buffer.Graphics.Clear(Color.Black);
-            Buffer.Graphics.DrawImage(background, Point.Empty);
+            Buffer.Graphics.DrawImage(Resources.spac, Point.Empty);
             foreach (BaseObject baseObject in _objects)
             {
+               
+
+                if (baseObject.Posic.X <= 0 && baseObject is Asteroid)
+                {
+                   var s= Rand.Next(10,47);
+                    var t = Rand.Next(1, 30) * Rand.Next(1, 30);
+                    var pos = new Point(Width, t+s);
+                    var Скорость = new Point(Rand.Next(5, 20), 0);
+                    var size = new Size(s,s);
+                    baseObject.Posic = pos;
+                    baseObject.Speed = Скорость;
+                    baseObject.Sizes = size;
+                }
+                if (baseObject !=null)
+                {
+                    baseObject.Draw();//Полиморфизм
+                }
                 //Star obj = baseObject as Star;
                 //if (baseObject is Star) (baseObject as Star).Draw();//Wrong!
-                baseObject.Draw();//Полиморфизм
+               
             }
-            Buffer.Render();
+            Buffer.Render();//отобразить изменения
         }
 
         public static void Update()
         {            
+            //для каждой фигуры вызвать метод update
+
             foreach (BaseObject baseObject in _objects)
-                baseObject.Update();            
+
+                if (baseObject !=null)
+                {
+                    baseObject.Update();
+
+                }        
         }
 
     }

@@ -7,34 +7,64 @@ using System.Drawing;
 
 namespace Asteroid
 {
-    class BaseObject
+    public abstract class BaseObject
     {
 
         protected Point Pos;
 
-        protected Point Dir;
+        protected Point Cкорость;// скорость движения объекта 
 
-        protected Size Size; 
+        protected Size Size; //размер объекта
+
+        
+        public Point Posic
+        {
+            get { return Pos; }
+            set { Pos = value; }
+        }
+        public Point Speed
+        {
+            get { return Cкорость; }
+            set { Cкорость = value; }
+        }
+        public Size Sizes
+        {
+            get { return Size; }
+            set { Size = value; }
+        }
+
 
         public BaseObject(Point pos, Point dir, Size size)
         {
             Pos = pos;
-            Dir = dir;
+            Cкорость = dir;
             Size = size;
         }
 
 
         public virtual void Draw()
         {
-            Game.Buffer.Graphics.DrawEllipse(Pens.White, Pos.X, Pos.Y, Size.Width, Size.Height);
+
+            //Game.Buffer.Graphics.DrawEllipse(Pens.DarkRed, Pos.X, Pos.Y, Size.Width, Size.Height);
         }
 
-        public void Update()
+        public  virtual void Update() //анимация
         {
-            Pos.X = Pos.Y + Dir.X;
-            Pos.Y = Pos.Y + Dir.Y;
-            if (Pos.X < 0 || Pos.X > Game.Width) Dir.X = -Dir.X;
-            if (Pos.Y < 0 || Pos.Y > Game.Height) Dir.Y = -Dir.Y;
+            Pos.X += Cкорость.X;
+            Pos.Y += Cкорость.Y;
+
+            if (Pos.X <= 0 || Pos.X >= Game.Width) Cкорость.X = -1 * Cкорость.X;
+            if (Pos.Y <= 0 || Pos.Y >= Game.Height) Cкорость.Y = -1 * Cкорость.Y;
+
+
+
+
+
+
+            //Pos.X = Pos.Y + Dir.X;//новая позиция объекта по x
+            //Pos.Y = Pos.Y + Dir.Y;//новая позиция объекта по y
+            //if (Pos.X < 0 || Pos.X > Game.Width) Dir.X = -Dir.X;
+            //if (Pos.Y < 0 || Pos.Y > Game.Height) Dir.Y = -Dir.Y;
         }
 
 
@@ -53,7 +83,7 @@ namespace Asteroid
         public Star(Point pos, Point dir, Size size, Brush brush=null):base(pos,dir,size)
         {
             Pos = pos;
-            Dir = dir;
+            Cкорость = dir;
             Size = size;
             if (brush!=null)
                 Brush = brush;
@@ -61,8 +91,11 @@ namespace Asteroid
 
         public override void Draw()
         {
-            //Game.Buffer.Graphics.FillEllipse(Brush, Pos.X, Pos.Y, Size.Width, Size.Height);
             Game.Buffer.Graphics.DrawImage(Image, Pos);
+        }
+        public override void Update()
+        {
+            base.Update();
         }
     }
 
