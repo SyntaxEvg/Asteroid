@@ -10,18 +10,35 @@ namespace Asteroid
 {
     public class Asteroid : BaseObject
     {
+       
+
         public Asteroid(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
-        }
 
+        }
+        Bitmap Ast = new Bitmap(Resources.Ast);
         public override void Draw()
         {
-            //Game.Buffer.Graphics.DrawEllipse(Pens.DarkRed, Pos.X, Pos.Y, Size.Width, Size.Height);
-            Game.Buffer.Graphics.DrawImage(new Bitmap(Resources.Ast, new Size(Size.Width, Size.Height)), Pos.X, Pos.Y);
+            Bitmap Aster = new Bitmap(Ast, new Size(Size.Width, Size.Height));
+            Game.Buffer.Graphics.DrawImage(Aster, Pos.X, Pos.Y);
         }
 
         public override void Update()
         {
+            if (Posic.X <= 0 )
+            {
+                var s = Game.Rand.Next(10, 47);
+                var t = Game.Rand.Next(1, 30) * Game.Rand.Next(1, 30);
+                var pos = new Point(Game.Width, t + s);
+                var Скорость = new Point(Game.Rand.Next(5, 20), 0);
+                var size = new Size(s, s);
+                 Posic = pos;
+                 Speed = Скорость;
+                 Sizes = size;
+            }
+
+
+
             Pos.X = Pos.X - Cкорость.X;
             Pos.Y = Pos.Y - Cкорость.Y;
             

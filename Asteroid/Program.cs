@@ -6,8 +6,23 @@ namespace Asteroid
 {
     class Program
     {
+
+
+
         static void Main(string[] args)
         {
+            //Form Заставка = new Form();
+            //Заставка.StartPosition = FormStartPosition.CenterScreen;
+            //Заставка.Width = 800;
+            //Заставка.Height = 600;
+            //Заставка.Text = "AsterBoom";
+            //Заставка.Show();
+            //Заставка.AutoSize = false;
+            //Заставка.MinimizeBox = false;
+            //Заставка.MinimumSize = new System.Drawing.Size(Заставка.Width, Заставка.Height = 600);
+            //Заставка.MaximumSize = new System.Drawing.Size(Заставка.Width, Заставка.Height = 600);
+            //Application.Run(Заставка);
+
 
             Form form = new Form();
             form.StartPosition = FormStartPosition.CenterScreen;

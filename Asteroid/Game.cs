@@ -11,7 +11,7 @@ using System.Security.Cryptography;
 namespace Asteroid
 {
     //XNA - MONO
-    static class Game
+    static class Game 
     {
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
@@ -20,7 +20,7 @@ namespace Asteroid
         public static int Height { get; set; }
 
         static System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        static public Random Rand { get; } = new Random();
+        public static Random Rand { get; } = new Random();
         static BaseObject[] _objects;
 
         static Image background = Image.FromFile("Images/Space.jpg");
@@ -42,6 +42,8 @@ namespace Asteroid
             Height = form.ClientSize.Height;
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
+            form.Closed += Window_Closed;
+            
             timer.Interval = 100;
             timer.Tick += delegate(object s, EventArgs r)
                 {
@@ -53,6 +55,11 @@ namespace Asteroid
             
         }
 
+        private static void Window_Closed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void Load()
         {
             _objects = new BaseObject[30]; // создание обьектов  в видео  астероидов
@@ -60,13 +67,6 @@ namespace Asteroid
 
             for (int i = 0; i < _objects.Length / 2; i++)
             {
-                //    var pos = new Point(Width-10, i * 20);
-                //    var Скорость = new Point(15 - i, 0);
-                //    var size = new Size(40, 40);
-
-                //_objects[i] = new Asteroid(pos, Скорость, size);
-                //}
-                
                     var s = Rand.Next(10, 47);
                     var t = Rand.Next(1, 30) * Rand.Next(1, 30);
                     var pos = new Point(Width, t + s);
@@ -88,20 +88,18 @@ namespace Asteroid
             //Buffer.Graphics.Clear(Color.Black);
             Buffer.Graphics.DrawImage(Resources.spac, Point.Empty);
             foreach (BaseObject baseObject in _objects)
-            {
-               
-
-                if (baseObject.Posic.X <= 0 && baseObject is Asteroid)
-                {
-                   var s= Rand.Next(10,47);
-                    var t = Rand.Next(1, 30) * Rand.Next(1, 30);
-                    var pos = new Point(Width, t+s);
-                    var Скорость = new Point(Rand.Next(5, 20), 0);
-                    var size = new Size(s,s);
-                    baseObject.Posic = pos;
-                    baseObject.Speed = Скорость;
-                    baseObject.Sizes = size;
-                }
+            {             
+                //if (baseObject.Posic.X <= 0 && baseObject is Asteroid)
+                //{
+                //   var s= Rand.Next(10,47);
+                //    var t = Rand.Next(1, 30) * Rand.Next(1, 30);
+                //    var pos = new Point(Width, t+s);
+                //    var Скорость = new Point(Rand.Next(5, 20), 0);
+                //    var size = new Size(s,s);
+                //    baseObject.Posic = pos;
+                //    baseObject.Speed = Скорость;
+                //    baseObject.Sizes = size;
+                //}
                 if (baseObject !=null)
                 {
                     baseObject.Draw();//Полиморфизм
