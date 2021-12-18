@@ -248,15 +248,16 @@ namespace Asteroid
                     //не json
                 }
 
-                DataGridView dataGrid = new DataGridView();
-                dataGrid.Location = new Point(1, 1);
-                dataGrid.MinimumSize = new Size(res.Width, res.Height);
-                dataGrid.DataSource = list;
-                res.Controls.Add(dataGrid);
-                res.Show();
+                
+                
             }
+            DataGridView dataGrid = new DataGridView();
+            dataGrid.Location = new Point(1, 1);
+            dataGrid.MinimumSize = new Size(res.Width, res.Height);
+            dataGrid.DataSource = list;
+            res.Controls.Add(dataGrid);
+            res.Show();
 
-           
             // MessageBox.Show("Пока нет времени", "Пока нет времени");
             //Form form = new Form();// форма с результатами  не релиз.
         }
