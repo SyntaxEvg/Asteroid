@@ -212,6 +212,7 @@ namespace Asteroid
         static string puth = "Result.json";
         private void writeFile(List<Result> list, string puth)
         {
+            list= list.OrderBy(x => x.Count).ToList();//сортируем  сразу по  Кол-ву сбитых 
             try
             {
                 var convertedJson = JsonConvert.SerializeObject(list, Formatting.Indented);
