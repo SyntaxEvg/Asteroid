@@ -12,10 +12,12 @@ namespace Asteroid
 
         protected Point Pos;
 
-        protected Point Cкорость;// скорость движения объекта 
+        protected Point speed;// скорость движения объекта 
 
         protected Size Size; //размер объекта
 
+
+        //public Rectangle Rectangle { get; set; }  => new Rectangle(Posic, Sizes);              
         
         public Point Posic
         {
@@ -24,8 +26,8 @@ namespace Asteroid
         }
         public Point Speed
         {
-            get { return Cкорость; }
-            set { Cкорость = value; }
+            get { return speed; }
+            set { speed = value; }
         }
         public Size Sizes
         {
@@ -37,7 +39,7 @@ namespace Asteroid
         public BaseObject(Point pos, Point dir, Size size)
         {
             Pos = pos;
-            Cкорость = dir;
+            speed = dir;
             Size = size;
         }
 
@@ -50,11 +52,11 @@ namespace Asteroid
 
         public  virtual void Update() //анимация
         {
-            Pos.X += Cкорость.X;
-            Pos.Y += Cкорость.Y;
+            Pos.X += speed.X;
+            Pos.Y += speed.Y;
 
-            if (Pos.X <= 0 || Pos.X >= Game.Width) Cкорость.X = -1 * Cкорость.X;
-            if (Pos.Y <= 0 || Pos.Y >= Game.Height) Cкорость.Y = -1 * Cкорость.Y;
+            if (Pos.X <= 0 || Pos.X >= Game.Width) speed.X = -1 * speed.X;
+            if (Pos.Y <= 0 || Pos.Y >= Game.Height) speed.Y = -1 * speed.Y;
 
 
 
@@ -70,33 +72,6 @@ namespace Asteroid
 
     }
 
-    class Star : BaseObject
-    {
-        System.Drawing.Brush Brush=Brushes.Red;
-        static System.Drawing.Image Image { get; } = Image.FromFile("Images/star.png");
-
-        public Star():base(pos:new Point(),size:new Size(), dir: new Point())
-        {
-
-        }
-
-        public Star(Point pos, Point dir, Size size, Brush brush=null):base(pos,dir,size)
-        {
-            Pos = pos;
-            Cкорость = dir;
-            Size = size;
-            if (brush!=null)
-                Brush = brush;
-        }
-
-        public override void Draw()
-        {
-            Game.Buffer.Graphics.DrawImage(Image, Pos);
-        }
-        public override void Update()
-        {
-            base.Update();
-        }
-    }
+    
 
 }
