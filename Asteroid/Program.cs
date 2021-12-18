@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Asteroid.Properties;
+using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 
@@ -12,14 +14,15 @@ namespace Asteroid
         static void Main(string[] args)
         {
             Form SplashScreen = new Form();
-            StartForm.CreatForms(SplashScreen);//создание типовых форм           
+            SplashScreen= StartForm.CreatForms(SplashScreen);//создание типовых форм
+            SplashScreen.BackgroundImage = Resources.spac;                                             //
             new Menu().Init(SplashScreen);
             Application.Run(SplashScreen);
 
-           
 
 
-            
+
+
 
         }
     }

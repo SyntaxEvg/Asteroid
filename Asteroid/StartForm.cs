@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Asteroid.Properties;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,29 +13,30 @@ namespace Asteroid
     {
         public static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
+        public static int Width { get; set; }
+        public static int Height { get; set; }
 
-
-        public static void CreatForms(Form Name)
+        public static Form CreatForms(Form Name)
         {
            Name.StartPosition = FormStartPosition.CenterScreen;
-           Name.Width = 800;
-           Name.Height = 600;
+            Width= Name.Width = 800;
+            Height= Name.Height = 600;
            Name.Text = "AsterBoom";
            Name.AutoSize = false;
            Name.MinimizeBox = false;
            Name.MinimumSize = new System.Drawing.Size(Name.Width, Name.Height = 600);
            Name.MaximumSize = new System.Drawing.Size(Name.Width, Name.Height = 600);
+            return Name;
         }
         public static void GrafBuff(Form form)
         {
-            if (_context == null && Buffer == null)
-            {
+            
                 Graphics g;
                 _context = BufferedGraphicsManager.Current;
-                g = form.CreateGraphics();
                 // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
-                Buffer = _context.Allocate(g, new Rectangle(0, 0, form.ClientSize.Width, form.ClientSize.Height));
-            }
+                Buffer = _context.Allocate(form.CreateGraphics(), new Rectangle(0, 0, form.ClientSize.Width, form.ClientSize.Height));
+                Buffer.Graphics.DrawImage(Resources.spac, Point.Empty);
+            
            
         }
 

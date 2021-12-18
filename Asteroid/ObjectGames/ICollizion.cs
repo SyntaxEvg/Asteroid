@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Asteroid
 {
-    internal interface ICollision
+    public interface ICollision
     {
         bool Collision(ICollision collision);
-        Rectangle rectengle { get; }
+        Rectangle rectengle { get; } //область попадения
     }
 }

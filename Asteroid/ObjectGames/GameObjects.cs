@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Asteroid
 {
-    public abstract class BaseObject
+    public abstract class BaseObject :ICollision
     {
 
         protected Point Pos;
@@ -35,7 +35,12 @@ namespace Asteroid
             set { Size = value; }
         }
 
+        public Rectangle rectengle => new Rectangle(Posic, Sizes);
 
+        public bool Collision(ICollision collision)
+        {
+            return collision.rectengle.IntersectsWith(this.rectengle);
+        }
         public BaseObject(Point pos, Point dir, Size size)
         {
             Pos = pos;
@@ -46,17 +51,15 @@ namespace Asteroid
 
         public virtual void Draw()
         {
-
-            //Game.Buffer.Graphics.DrawEllipse(Pens.DarkRed, Pos.X, Pos.Y, Size.Width, Size.Height);
         }
 
-        public  virtual void Update() //анимация
+        public  virtual void Update(bool fals) //анимация
         {
             Pos.X += speed.X;
             Pos.Y += speed.Y;
 
-            if (Pos.X <= 0 || Pos.X >= Game.Width) speed.X = -1 * speed.X;
-            if (Pos.Y <= 0 || Pos.Y >= Game.Height) speed.Y = -1 * speed.Y;
+            if (Pos.X <= 0 || Pos.X >= StartForm.Width) speed.X = -1 * speed.X;
+            if (Pos.Y <= 0 || Pos.Y >= StartForm.Height) speed.Y = -1 * speed.Y;
 
 
 
@@ -69,7 +72,7 @@ namespace Asteroid
             //if (Pos.Y < 0 || Pos.Y > Game.Height) Dir.Y = -Dir.Y;
         }
 
-
+      
     }
 
     

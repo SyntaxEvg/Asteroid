@@ -30,9 +30,9 @@ namespace Asteroid
         {
             StartForm.Buffer.Graphics.DrawImage(Image, Pos);
         }
-        public override void Update()
+        public override void Update(bool knock)
         {
-            base.Update();
+            base.Update(knock);
         }
     }
 }

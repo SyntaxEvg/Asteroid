@@ -36,6 +36,9 @@
     <StartupObject>Asteroid.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -48,10 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asteroid.cs" />
+    <Compile Include="Model\Result.cs" />
+    <Compile Include="ObjectGames\Asteroid.cs" />
+    <Compile Include="ObjectGames\Bullet.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameObjects.cs" />
-    <Compile Include="ICollizion.cs" />
+    <Compile Include="ObjectGames\GameObjects.cs" />
+    <Compile Include="ObjectGames\ICollizion.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,13 +65,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Star.cs" />
+    <Compile Include="ObjectGames\Star.cs" />
     <Compile Include="StartForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\bullets1.png" />
     <Resource Include="Images\Ast.png" />
     <None Include="Images\spac.jpg" />
     <Content Include="Images\Space.jpg">

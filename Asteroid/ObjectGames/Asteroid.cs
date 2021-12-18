@@ -22,13 +22,15 @@ namespace Asteroid
             StartForm.Buffer.Graphics.DrawImage(Aster, Pos.X, Pos.Y);
         }
 
-        public override void Update()
+        public override void Update(bool knock_down)
         {
-            if (Posic.X <= 0 )
+            
+
+            if (Posic.X <= 0 || knock_down) //если был  удар нулим 
             {
                 var s = Game.Rand.Next(10, 47);
                 var t = Game.Rand.Next(1, 30) * Game.Rand.Next(1, 30);
-                var pos = new Point(Game.Width, t + s);
+                var pos = new Point(StartForm.Width, t + s);
                 var speed = new Point(Game.Rand.Next(5, 20), 0);
                 var size = new Size(s, s);
                  Posic = pos;
