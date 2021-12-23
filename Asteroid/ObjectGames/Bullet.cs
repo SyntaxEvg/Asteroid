@@ -33,16 +33,17 @@ namespace Asteroid
         {
             if (Bax)
             {
-                var y =new Random().Next(10, 350);
-                Pos.X = 0;
-                Pos.Y = y;
+                //var y =new Random().Next(10, 350);
+                //Pos.X = 0;
+                //Pos.Y = y;
                 return;
             }
 
             Pos.X = Pos.X + Speed.X;
             if (Pos.X > StartForm.Width)
             {
-                Pos.X = 0;
+                 Game.bull=null;
+                return ;
             }
         }
 

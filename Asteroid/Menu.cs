@@ -1,4 +1,5 @@
 ﻿using Asteroid.Model;
+using Asteroid.SERVICE;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ using System.Windows.Forms;
 
 namespace Asteroid
 {
-    public class Menu
+    public  class Menu
     {
-       static internal Form _SplashScreen = null;
-
+       static public Form _SplashScreen = null;
+        static public Form Games = null;
 
         public void Init(Form form)
         {           
@@ -32,6 +33,10 @@ namespace Asteroid
             //перед  созданием игры спрашиваем имя
             //var forma = sender as Form;
             UserData();
+            if (Game.NameUser.Length < 2)
+            {
+                return;
+            }
 
             Form form = new Form();
             form = StartForm.CreatForms(form);//создание типовых форм
@@ -40,8 +45,10 @@ namespace Asteroid
             form.KeyPreview = true;
             StartForm.GrafBuff(form);//создать граф обьект
             Game.Init(form);
+            Games = form;
             form.Show();
             _SplashScreen.Hide();
+
         }
 
         private void UserData()
@@ -74,18 +81,9 @@ namespace Asteroid
             Dialog.Controls.Add(close);
             Dialog.Controls.Add(t1);
             Dialog.ShowDialog();
-            Dialog.Dispose();
-            // Show testDialog as a modal dialog and determine if DialogResult = OK.
-            //if (testDialog.ShowDialog(form) == DialogResult.OK)
-            //{
-            //    // Read the contents of testDialog's TextBox.
-            //    //this.txtResult.Text = testDialog.TextBox1.Text;
-            //}
-            //else  
-            //{
-            //    //this.txtResult.Text = "Cancelled";
-            //}
-            //testDialog.Dispose();
+             Dialog.Dispose();
+               
+            
         }
 
         private void TextBoxName(object sender, EventArgs e)
@@ -113,7 +111,7 @@ namespace Asteroid
                 
                 while (UserName.Length>2)
                 {
-                        Game.NameUser = Name;//имя
+                    Game.NameUser = Name;
                     b.Parent.Dispose();
                     break;                 
                 }
@@ -138,7 +136,7 @@ namespace Asteroid
                 var t = MessageBox.Show("Покинуть игру", "Результат не будет сохранен", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 if (t == DialogResult.OK)
                 {
-                    StopGame(sender);
+                    SaveResults.StopGame();
                     var senders = sender as Form;
                     senders.Close();
                     try
@@ -155,105 +153,29 @@ namespace Asteroid
         }
         private void Form_FormClosed(object sender, FormClosedEventArgs e)
         {
-            StopGame(sender);
+            SaveResults.StopGame();
         }
 
-        public void StopGame(object sender)
-        {
-            SaveResult();
+       
 
-            Game.count = 0;
-            _SplashScreen.Show();
-           
-            Game.timer.Stop();
-
-        }
-
-        private void SaveResult()
-        {
-            var write = new Result()
-            {
-                Name = Game.NameUser,
-                Time= Game.TimerGame.Text,
-                Count = Game.count
-
-             };
-
-           
-            List<Result> list = new List<Result>();
-            list.Add(write);
-            if (File.Exists(puth))
-            {
-                try
-                {
-                    //не знаю  кк дописывать всегда делаю так, если умеете ,научите меня
-                using (StreamReader file = File.OpenText(puth))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    var massResult = (List<Result>)serializer.Deserialize(file, typeof(List<Result>));
-                    list.AddRange(massResult);
-                }
-                    writeFile(list, puth);
-                   
-                }
-                catch (Exception)
-                {
-                    //или файл открыт уже где то...
-                    //не json
-                }
-            }
-            else
-            {
-                writeFile(list, puth);
-            }
-
-          
-        }
-        static string puth = "Result.json";
-        private void writeFile(List<Result> list, string puth)
-        {
-            list= list.OrderBy(x => x.Count).ToList();//сортируем  сразу по  Кол-ву сбитых 
-            try
-            {
-                var convertedJson = JsonConvert.SerializeObject(list, Formatting.Indented);
-                File.WriteAllText(puth, JsonConvert.SerializeObject(list));
-            }
-            catch (Exception)
-            {
-            }
-          
-        }
+       
+       
 
         private void Resalt_Click(object sender, EventArgs e)
         {
             Form res= new Form();
             res = StartForm.CreatForms(res);//создание типовых форм
-
+            res.Width = 400;
+            res.MinimumSize = new System.Drawing.Size(400, 300);
+            res.MaximumSize = new System.Drawing.Size(400, 300);
             List<Result> list = new List<Result>();
-            if (File.Exists(puth))
-            {
-                try
-                {
-                    
-                    using (StreamReader file = File.OpenText(puth))
-                    {
-                        JsonSerializer serializer = new JsonSerializer();
-                        var massResult = (List<Result>)serializer.Deserialize(file, typeof(List<Result>));
-                        list.AddRange(massResult);
-                    }
 
-                }
-                catch (Exception)
-                {
-                    //или файл открыт уже где то...
-                    //не json
-                }
+            list =SaveResults.Deserialize(list);
 
-                
-                
-            }
+            
             DataGridView dataGrid = new DataGridView();
             dataGrid.Location = new Point(1, 1);
+            dataGrid.Margin =new Padding(5);
             dataGrid.MinimumSize = new Size(res.Width, res.Height);
             dataGrid.DataSource = list;
             res.Controls.Add(dataGrid);
@@ -280,8 +202,8 @@ namespace Asteroid
             GamePlay.Click += GamePlay_Click;
             GamePlay.Text = "GamePlay";
             GamePlay.Font = new Font(form.Font, FontStyle.Bold);
-            GamePlay.Location = new Point(350, 150);
-            GamePlay.Size = new Size(100, 35);
+            GamePlay.Location = new Point(350, 200);
+            GamePlay.Size = new Size(100, 45);
             buttons.Add(GamePlay);
             
             Button Resalt = new Button();
@@ -290,8 +212,8 @@ namespace Asteroid
             Resalt.Click += Resalt_Click;
             Resalt.Text = "Resalt";
             Resalt.Font = new Font(form.Font, FontStyle.Bold);
-            Resalt.Location = new Point(350, 210);
-            Resalt.Size = new Size(100, 35);
+            Resalt.Location = new Point(350, 270);
+            Resalt.Size = new Size(100, 45);
             buttons.Add(Resalt);
 
             Button Exit = new Button();
