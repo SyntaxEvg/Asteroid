@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lesson4.cs" />
     <Compile Include="Model\Result.cs" />
     <Compile Include="ObjectGames\Asteroid.cs" />
     <Compile Include="ObjectGames\Bullet.cs" />

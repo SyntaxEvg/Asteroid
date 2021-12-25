@@ -86,7 +86,7 @@ namespace Asteroid
             _objects = new BaseObject[30]; // создание обьектов  в видео  астероидов
 
             var PosShip = new Point(10, 300);
-            var speed = new Point(5, 5);
+            var speed = new Point(10, 10);
             ship = new Ship(PosShip,speed,new Size(40,50));
 
             ship.EventDia += Ship_EventDia;
@@ -168,7 +168,7 @@ namespace Asteroid
             }
            
             bull?.Draw();//пуля           
-            if (ship.LiveShip>0)
+            if (ship?.LiveShip>0)
             {
                 StartForm.Buffer.Render();//отобразить изменения
             }

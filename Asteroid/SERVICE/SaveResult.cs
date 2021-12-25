@@ -29,6 +29,10 @@ namespace Asteroid.SERVICE
 
         private static void SaveResult()
         {
+            if (Game.NameUser == "")
+            {
+                return;
+            }
             var write = new Result()
             {
                 Name = Game.NameUser,
@@ -36,8 +40,7 @@ namespace Asteroid.SERVICE
                 Count = Game.count
 
             };
-
-
+            
             List<Result> list = new List<Result>();
             list.Add(write);
             if (File.Exists(Puth))
@@ -69,7 +72,10 @@ namespace Asteroid.SERVICE
         {
             Game.timer.Stop();//
             SaveResult();//пишем результат 
-           
+            Game.NameUser = "";
+            Game.TimerGame.Text = "";
+            Game.count = 0;
+            
             Game.count = 0;//обноляем сбитых
             Menu._SplashScreen.Show();
 
